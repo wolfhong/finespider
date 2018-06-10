@@ -2,12 +2,12 @@
 
 Just teaching materials of scrapy.
 
-### Require
+### Dependency
 
 * Python>=3.4 (not tested on other python version, maybe OK)
 * scrapy
 
 ### Guide
 
-* [quotespider](http://quotes.toscrape.com/): official scrapy demo
-* [pedaily](http://zdb.pedaily.cn/): 投资界
+* quotespider: [official demo website](http://quotes.toscrape.com/)
+* pedailyspider: [投资界](http://zdb.pedaily.cn/)

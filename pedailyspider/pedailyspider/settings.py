@@ -79,8 +79,8 @@ DEFAULT_REQUEST_HEADERS = {
 ITEM_PIPELINES = {
     'pedailyspider.pipelines.INVPipeline': 300,
     'pedailyspider.pipelines.IPOPipeline': 301,
-    'pedailyspider.pipelines.MAPipeline': 302,
-    'pedailyspider.pipelines.PEPipeline': 303,
+    # 'pedailyspider.pipelines.MAPipeline': 302,
+    # 'pedailyspider.pipelines.PEPipeline': 303,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

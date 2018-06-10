@@ -1,7 +1,7 @@
 .PHONY: testpage testtime testitem testerror
 
 testpage:
-	scrapy crawl -s CLOSESPIDER_PAGECOUNT=3 pedaily
+	scrapy crawl -s CLOSESPIDER_PAGECOUNT=5 pedaily
 
 testtime:
 	scrapy crawl -s CLOSESPIDER_ITEMCOUNT=5 pedaily
