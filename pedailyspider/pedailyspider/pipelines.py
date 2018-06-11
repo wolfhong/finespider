@@ -11,6 +11,7 @@ from pedailyspider.models import SessionContext, IPOModel, INVModel
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
 
+# 还是会有解析错误的情况
 def str_to_date(date_str):
     try:
         return datetime.datetime.strptime(date_str, '%Y年%m月%d日').date()

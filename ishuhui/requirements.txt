@@ -1,0 +1,4 @@
+scrapy
+sqlalchemy
+pymysql
+scrapy-splash
