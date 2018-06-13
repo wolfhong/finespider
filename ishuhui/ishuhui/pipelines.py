@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+from hashlib import md5
+from scrapy.exceptions import DropItem
+from ishuhui.models import SessionContext, Book, Chapter
 
 # Define your item pipelines here
 #
@@ -7,5 +11,4 @@
 
 
 class IshuhuiPipeline(object):
-    def process_item(self, item, spider):
-        return item
+    pass

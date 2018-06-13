@@ -1,0 +1,6 @@
+docker run -p 8050:8050 scrapinghub/splash
+
+
+
+
+# to see https://github.com/scrapy-plugins/scrapy-splash

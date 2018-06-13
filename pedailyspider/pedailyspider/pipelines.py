@@ -66,9 +66,6 @@ class BasePipeline(object):
                 session.commit()
                 self.insert_list = []
 
-    def parse_date(self, date_str):
-        return None
-
 
 class INVPipeline(BasePipeline):
     ITEM_CLASSNAME = 'INVItem'

@@ -8,7 +8,14 @@
 import scrapy
 
 
-class IshuhuiItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+class BookItem(scrapy.Item):
+    cartoon = scrapy.Field()
+    url = scrapy.Field()
+
+
+class ChapterItem(scrapy.Item):
+    cartoon = scrapy.Field()
+    chapter = scrapy.Field()
+    title = scrapy.Field()
+    url = scrapy.Field()
+    images = scrapy.Field()

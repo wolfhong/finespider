@@ -14,6 +14,17 @@ BOT_NAME = 'ishuhui'
 SPIDER_MODULES = ['ishuhui.spiders']
 NEWSPIDER_MODULE = 'ishuhui.spiders'
 
+# database
+DATABASES = {
+    'default': {
+        'engine': 'mysql',
+        'host': 'localhost',
+        'port': 3306,
+        'user': 'root',
+        'password': '',
+        'dbname': 'ishuhui',
+    },
+}
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'ishuhui (+http://www.yourdomain.com)'
