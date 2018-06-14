@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
+import logging
 import scrapy
 from scrapy_splash import SplashRequest
 from ishuhui.items import BookItem, ChapterItem
+from collections import OrderedDict
 
 
 class CartoonSpider(scrapy.Spider):
@@ -24,6 +26,7 @@ class CartoonSpider(scrapy.Spider):
         'SPLASH_COOKIES_DEBUG': False,  # True if debug
         'SPLASH_LOG_400': True,
         'ROBOTSTXT_OBEY': False,  # robots obey
+        'CONCURRENT_REQUESTS': 4,
         # 'ITEM_PIPELINES': {
         #     'ishuhui.pipelines.IshuhuiPipeline': 300,
         # },
@@ -43,10 +46,11 @@ class CartoonSpider(scrapy.Spider):
             item['url'] = url
             item['cartoon'] = part.css('a.title::text').extract_first()
             # yield item
+            self.log("book: %s" % item['cartoon'], logging.INFO)
             yield SplashRequest(url, self.parse_chapter, args={'wait': 1.5})
         for link in response.css('div.paging a.page-num::attr(href)').extract():
             link = self.format_url(response, link)
-            yield SplashRequest(link, self.parse_book, args={'wait': 0.5})
+            yield SplashRequest(link, self.parse_book, args={'wait': 1.5})
 
     def parse_chapter(self, response):
         cartoon = response.css('div.info h1.name::text').extract_first()
@@ -55,11 +59,11 @@ class CartoonSpider(scrapy.Spider):
             title = part.css('a.post::attr(title)').extract_first()
             href = self.format_url(response, part.css('a.post::attr(href)').extract_first())
             if href and number and title:  # style like http://www.ishuhui.com/cartoon/book/1
-                yield {'cartoon': cartoon, 'url': href, 'chapter': number, 'title': title}
+                yield OrderedDict([('cartoon', cartoon), ('url', href), ('title', title), ('chapter', number)])
             else:  # another style like http://www.ishuhui.com/cartoon/book/25
                 number = part.css('div.post-arr span.number::text').extract_first() or ''
                 for spanpart in part.css('div.post-arr a'):
                     href = self.format_url(response, spanpart.css('a::attr(href)').extract_first())
                     title = spanpart.css('a::text').extract_first() or ''
                     title = number + title
-                    yield {'cartoon': cartoon, 'url': href, 'chapter': number, 'title': title}
+                    yield OrderedDict([('cartoon', cartoon), ('url', href), ('chapter', number), ('title', title)])

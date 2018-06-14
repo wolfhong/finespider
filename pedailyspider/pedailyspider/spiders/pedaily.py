@@ -15,10 +15,10 @@ class PedailySpider(CrawlSpider):
         # 'http://zdb.pedaily.cn/pe/p1/',
     ]
     rules = [
-        Rule(LinkExtractor(allow=(r'/inv/p\d+/', )), callback='parse_inv'),
-        Rule(LinkExtractor(allow=(r'/ipo/p\d+/', )), callback='parse_ipo'),
-        # Rule(LinkExtractor(allow=(r'/ma/p\d+/', )), callback='parse_ma'),
-        # Rule(LinkExtractor(allow=(r'/pe/p\d+/', )), callback='parse_pe'),
+        Rule(LinkExtractor(allow=(r'/inv/p\d+/', )), callback='parse_inv', follow=True),
+        Rule(LinkExtractor(allow=(r'/ipo/p\d+/', )), callback='parse_ipo', follow=True),
+        # Rule(LinkExtractor(allow=(r'/ma/p\d+/', )), callback='parse_ma', follow=True),
+        # Rule(LinkExtractor(allow=(r'/pe/p\d+/', )), callback='parse_pe', follow=True),
     ]
 
     def format_url(self, response, url):
@@ -50,8 +50,8 @@ class PedailySpider(CrawlSpider):
             item['group_href'] = event.css(".group a::attr(href)").extract()
             item['view_url'] = self.format_url(response, event.css(".view a::attr(href)").extract_first())
             yield item
-        for newp in response.css(".page-list a::attr(href)").extract():
-            yield response.follow(newp, callback=self.parse_inv)
+        # for newp in response.css(".page-list a::attr(href)").extract():
+        #     yield response.follow(newp, callback=self.parse_inv, errback=errback_httpbin)
 
     def parse_ipo(self, response):
         for event in response.xpath('//ul[@id="ipo-list"]/li'):
@@ -67,8 +67,8 @@ class PedailySpider(CrawlSpider):
 
             item['view_url'] = self.format_url(response, event.css(".view a::attr(href)").extract_first())
             yield item
-        for newp in response.css(".page-list a::attr(href)").extract():
-            yield response.follow(newp, callback=self.parse_ipo)
+        # for newp in response.css(".page-list a::attr(href)").extract():
+        #     yield response.follow(newp, callback=self.parse_ipo)
 
     def parse_ma(self, response):
         for event in response.xpath('//ul[@id="ma-list"]/li'):
@@ -84,8 +84,8 @@ class PedailySpider(CrawlSpider):
 
             item['view_url'] = self.format_url(response, event.css(".view a::attr(href)").extract_first())
             yield item
-        for newp in response.css(".page-list a::attr(href)").extract():
-            yield response.follow(newp, callback=self.parse_ma)
+        # for newp in response.css(".page-list a::attr(href)").extract():
+        #     yield response.follow(newp, callback=self.parse_ma)
 
     def parse_pe(self, response):
         for event in response.xpath('//ul[@id="pe-list"]/li'):
@@ -100,5 +100,13 @@ class PedailySpider(CrawlSpider):
             item['money_spans'] = ''.join(event.css(".money span::text").extract())
             item['view_url'] = self.format_url(response, event.css(".view a::attr(href)").extract_first())
             yield item
-        for newp in response.css(".page-list a::attr(href)").extract():
-            yield response.follow(newp, callback=self.parse_pe)
+        # for newp in response.css(".page-list a::attr(href)").extract():
+        #     yield response.follow(newp, callback=self.parse_pe)
+
+    def errback_httpbin(self, failure):
+        '''
+        if failure.check(HttpError):
+            response = failure.value.response
+            request = failure.request
+            request_url = request.url
+        '''
